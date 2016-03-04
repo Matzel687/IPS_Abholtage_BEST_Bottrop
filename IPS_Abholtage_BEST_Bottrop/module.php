@@ -81,7 +81,7 @@ class BEST_Abholtage_Muell extends IPSModule
            	$Abholtage[$TonnenTyp] = $Termin;  //Array Abholtage
 			}
 
-			SetValue($this->GetIDForIdent("Graue_Tonne"),$Abholtage['graue Tonne'];
+			SetValue($this->GetIDForIdent("Graue_Tonne"),$Abholtage['graue Tonne']);
 			SetValue($this->GetIDForIdent("Braune_Tonne"),$Abholtage['braune Tonne']);
 			SetValue($this->GetIDForIdent("Blaue_Tonne"),$Abholtage['blaue Tonne']);
 			SetValue($this->GetIDForIdent("Gelbe_Tonne"),$Abholtage['gelbe Tonne']);
