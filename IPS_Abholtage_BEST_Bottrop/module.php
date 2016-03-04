@@ -33,9 +33,9 @@ class BEST_Bottrop_Muelltage extends IPSModule
 				{
                             //Variablen erstellen Wetter jetzt
                      $this->RegisterVariableString("Graue_Tonne","Graue Tonne","String",1);
-                     $this->RegisterVariableString("Braune_Tonne","Graue Tonne","String",2);
-                     $this->RegisterVariableString("Blaue_Tonne","Graue Tonne","String",3);
-                     $this->RegisterVariableString("Gelbe_Tonne","Graue Tonne","String",4);
+                     $this->RegisterVariableString("Braune_Tonne","Braune Tonne","String",2);
+                     $this->RegisterVariableString("Blaue_Tonne","Blaue Tonne","String",3);
+                     $this->RegisterVariableString("Gelbe_Tonne","Gelbe Tonne","String",4);
 		                    //Timer zeit setzen
 			        $this->SetTimerInterval("Update", $this->ReadPropertyInteger("UpdateInterval")*1000*60);
                              //Instanz ist aktiv
