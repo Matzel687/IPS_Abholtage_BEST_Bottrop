@@ -1,0 +1,17 @@
+{
+    "elements":
+    [
+        { "type": "Label", "label": "Straße und Hausnummer eingeben (nur Bottrop)" },
+        { "type": "ValidationTextBox", "name": "Straße", "caption": "Straßenname" },
+        { "type": "ValidationTextBox", "name": "Nummer", "caption": "Hausnummer" },
+		{ "type": "IntervalBox", "name": "UpdateInterval", "caption": "Update alle X Minuten" }
+    ],
+    "actions":
+    [ ],
+    "status":
+    [
+		{ "code": 101, "icon": "active", "caption": "Instanz wird erstellt!" },
+        { "code": 102, "icon": "active", "caption": "Instanz ist aktiv!" },
+		{ "code": 104, "icon": "inactive", "caption": "Instanz ist inaktiv!" }
+	]
+}

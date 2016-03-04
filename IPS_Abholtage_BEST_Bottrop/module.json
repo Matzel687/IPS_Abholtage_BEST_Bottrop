@@ -1,0 +1,11 @@
+{
+  "id": "{571388BC-F2F6-48CF-AC4B-A8E58FE47F9F}",
+  "name": "BEST Bottrop Mülltage",
+  "type": 3,
+  "vendor": "matzel687",
+  "aliases": ["Marcel Lanfermann"],
+  "parentRequirements": [],
+  "childRequirements": [],
+  "implemented": [],
+  "prefix": "BT"
+}
