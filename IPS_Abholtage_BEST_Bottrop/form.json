@@ -2,7 +2,7 @@
     "elements":
     [
         { "type": "Label", "label": "Straße und Hausnummer eingeben (nur Bottrop)" },
-        { "type": "ValidationTextBox", "name": "Straße", "caption": "Straßenname" },
+        { "type": "ValidationTextBox", "name": "Strasse", "caption": "Straßenname" },
         { "type": "ValidationTextBox", "name": "Nummer", "caption": "Hausnummer" },
 		{ "type": "IntervalBox", "name": "UpdateInterval", "caption": "Update alle X Minuten" }
     ],

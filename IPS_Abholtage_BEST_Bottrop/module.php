@@ -16,7 +16,7 @@ class BEST_Bottrop_Muelltage extends IPSModule
      		 // Diese Zeile nicht löschen.
     		  parent::Create();
 
-			$this->RegisterPropertyString("Straße", "Ernst-Wilczok-Platz");
+			$this->RegisterPropertyString("Strasse", "Ernst-Wilczok-Platz");
 			$this->RegisterPropertyString("Nummer", "1");
 			$this->RegisterPropertyInteger("UpdateInterval", 1440 );
      		$this->RegisterTimer("Update", 0, 'BT_Update($_IPS["TARGET"]);');
@@ -29,7 +29,7 @@ class BEST_Bottrop_Muelltage extends IPSModule
          // Diese Zeile nicht löschen
          parent::ApplyChanges();
 
-			if (($this->ReadPropertyString("Straße") != "") AND ($this->ReadPropertyString("Nummer") != ""))
+			if (($this->ReadPropertyString("Strasse") != "") AND ($this->ReadPropertyString("Nummer") != ""))
 				{
                             //Variablen erstellen Wetter jetzt
                      $this->RegisterVariableString("Graue_Tonne","Graue Tonne","String",1);
@@ -51,7 +51,7 @@ class BEST_Bottrop_Muelltage extends IPSModule
    public function Update()
 	{
 
-            $Straße =  $this->ReadPropertyString("Straße");  // Straßenname
+            $Straße =  $this->ReadPropertyString("Strasse");  // Straßenname
             $Nummer = $this->ReadPropertyString("Nummer");  // Hausnummer
 
 			$html = file_get_contents("http://www.best-bottrop.de/abfallkalender/start/uebersicht?strassenname=".$Straße."&hausnummer=".$Nummer);
