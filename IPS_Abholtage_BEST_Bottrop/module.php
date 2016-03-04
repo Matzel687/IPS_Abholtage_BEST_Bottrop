@@ -1,6 +1,6 @@
 <?
     // Klassendefinition
-class BEST_Abholtage_Muell extends IPSModule
+class BEST_Bottrop_Muelltage extends IPSModule
 {
    // Der Konstruktor des Moduls
    // Überschreibt den Standard Kontruktor von IPS
