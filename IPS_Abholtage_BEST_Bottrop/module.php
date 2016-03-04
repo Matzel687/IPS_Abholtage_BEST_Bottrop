@@ -51,10 +51,10 @@ class BEST_Bottrop_Muelltage extends IPSModule
    public function Update()
 	{
 
-            $Straße =  $this->ReadPropertyString("Strasse");  // Straßenname
+            $Strasse =  $this->ReadPropertyString("Strasse");  // Straßenname
             $Nummer = $this->ReadPropertyString("Nummer");  // Hausnummer
 
-			$html = file_get_contents("http://www.best-bottrop.de/abfallkalender/start/uebersicht?strassenname=".$Straße."&hausnummer=".$Nummer);
+			$html = file_get_contents("http://www.best-bottrop.de/abfallkalender/start/uebersicht?strassenname=".$Strasse."&hausnummer=".$Nummer);
 			// Prüfe ob  "BEST Bottrop Abfuhrkalender" im Quellcode vorhanden
 			if(strpos($html, "BEST Bottrop Abfuhrkalender") === false)
 			{
@@ -80,7 +80,6 @@ class BEST_Bottrop_Muelltage extends IPSModule
 
            	$Abholtage[$TonnenTyp] = $Termin;  //Array Abholtage
 			}
-
 			SetValue($this->GetIDForIdent("Graue_Tonne"),$Abholtage['graue Tonne']);
 			SetValue($this->GetIDForIdent("Braune_Tonne"),$Abholtage['braune Tonne']);
 			SetValue($this->GetIDForIdent("Blaue_Tonne"),$Abholtage['blaue Tonne']);
