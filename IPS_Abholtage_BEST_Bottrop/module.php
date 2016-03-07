@@ -31,10 +31,10 @@ class BEST_Bottrop_Muelltage extends IPSModule
 			if (($this->ReadPropertyString("Strasse") != "") AND ($this->ReadPropertyString("Nummer") != ""))
 				{
                             //Variablen erstellen Wetter jetzt
-                     $this->RegisterVariableString("Graue_Tonne","Graue Tonne","String",1);
-                     $this->RegisterVariableString("Braune_Tonne","Braune Tonne","String",2);
-                     $this->RegisterVariableString("Blaue_Tonne","Blaue Tonne","String",3);
-                     $this->RegisterVariableString("Gelbe_Tonne","Gelbe Tonne","String",4);
+                     $this->RegisterVariableInteger("Graue_Tonne","Graue Tonne","UnixTimestamp",1);
+                     $this->RegisterVariableInteger("Braune_Tonne","Braune Tonne","UnixTimestamp",2);
+                     $this->RegisterVariableInteger("Blaue_Tonne","Blaue Tonne","UnixTimestamp",3);
+                     $this->RegisterVariableInteger("Gelbe_Tonne","Gelbe Tonne","UnixTimestamp",4);
                      $this->RegisterVariableString("Woche_String","Wochenübersicht","HTMLBox",5);
 		                    //Timer zeit setzen
                     $Updatetime = explode(":",$this->ReadPropertyString("UpdateInterval"));
@@ -105,10 +105,10 @@ class BEST_Bottrop_Muelltage extends IPSModule
             $Wochestr .= "</table>";
 
             
-			SetValue($this->GetIDForIdent("Graue_Tonne"),$Abholtage['graue Tonne']);
-			SetValue($this->GetIDForIdent("Braune_Tonne"),$Abholtage['braune Tonne']);
-			SetValue($this->GetIDForIdent("Blaue_Tonne"),$Abholtage['blaue Tonne']);
-			SetValue($this->GetIDForIdent("Gelbe_Tonne"),$Abholtage['gelbe Tonne']);
+			SetValue($this->GetIDForIdent("Graue_Tonne"),$TerminGrau);
+			SetValue($this->GetIDForIdent("Braune_Tonne"),$TerminBraun);
+			SetValue($this->GetIDForIdent("Blaue_Tonne"),$TerminBlau);
+			SetValue($this->GetIDForIdent("Gelbe_Tonne"),$TerminGelb);
             SetValue($this->GetIDForIdent("Woche_String"),$Wochestr);
     }
     
@@ -120,11 +120,6 @@ class BEST_Bottrop_Muelltage extends IPSModule
             $eid = IPS_CreateEvent(1);
             IPS_SetParent($eid, $parentID);
             IPS_SetName($eid, $name);
-        }
-        if ($hour === 0) 
-        {
-            IPS_SetEventActive($eid, false);
-            return $eid;
         }
         else
 	    {
