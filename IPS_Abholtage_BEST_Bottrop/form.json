@@ -8,7 +8,7 @@
     ],
     "actions":
     [
-        { "type": "Button", "label": "Update", "onClick": "IQLFT_Update($id);" } 
+        { "type": "Button", "label": "Update", "onClick": "BT_Update($id);" } 
     ],
     "status":
     [
