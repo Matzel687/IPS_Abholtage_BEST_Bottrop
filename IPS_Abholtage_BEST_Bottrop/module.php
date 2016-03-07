@@ -84,8 +84,8 @@ class BEST_Bottrop_Muelltage extends IPSModule
 			}
             
             // Datum aus dem Array Abholtage in Unix Timestamp umwandeln 
-            $TerminBlau=strtotime($Abholtage['blaue Tonne'];  
-            $TerminGrau=strtotime($Abholtage['graue Tonne');
+            $TerminBlau=strtotime($Abholtage['blaue Tonne']);  
+            $TerminGrau=strtotime($Abholtage['graue Tonne']);
             $TerminGelb=strtotime($Abholtage['gelbe Tonne']);
             $TerminBraun=strtotime($Abholtage['braune Tonne']);
             
