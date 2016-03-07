@@ -18,8 +18,7 @@ class BEST_Bottrop_Muelltage extends IPSModule
 
 			$this->RegisterPropertyString("Strasse", "Ernst-Wilczok-Platz");
 			$this->RegisterPropertyString("Nummer", "1");
-			$this->RegisterPropertyInteger("UpdateInterval", 1440 );
-     		$this->RegisterTimer("Update", 0, 'BT_Update($_IPS["TARGET"]);');
+			$this->RegisterPropertyString("UpdateInterval", "23:55" );
             
   		 }
 
@@ -38,8 +37,8 @@ class BEST_Bottrop_Muelltage extends IPSModule
                      $this->RegisterVariableString("Gelbe_Tonne","Gelbe Tonne","String",4);
                      $this->RegisterVariableString("Woche_String","Wochenübersicht","HTMLBox",5);
 		                    //Timer zeit setzen
-			        $this->SetTimerInterval("Update", $this->ReadPropertyInteger("UpdateInterval")*1000*60);
-                    $this->SetTimerWeekByName($this->InstanceID,"Abholtage_Update", 23,55);
+                    $Updatetime = explode(":",$this->ReadPropertyString("UpdateInterval"));
+                    $this->SetTimerWeekByName($this->InstanceID,"Abholtage_Update",$Updatetime[0],$Updatetime[1]);
                              //Instanz ist aktiv
 			        $this->SetStatus(102);
 				}
@@ -133,6 +132,7 @@ class BEST_Bottrop_Muelltage extends IPSModule
 		    IPS_SetEventCyclicTimeFrom($eid, $hour, $minutes, 0);
             IPS_SetEventScript($eid, 'BT_Update($_IPS["TARGET"]);');
 		    IPS_SetEventActive($eid, true);
+            IPS_SetHidden($eid, true);
             return $eid;
 	    }
     }
