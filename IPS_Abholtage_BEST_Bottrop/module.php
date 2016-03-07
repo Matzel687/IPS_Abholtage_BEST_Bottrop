@@ -131,6 +131,7 @@ class BEST_Bottrop_Muelltage extends IPSModule
 	    {
 		    IPS_SetEventCyclic($eid, 3 /*  	Wöchentlich */ , 1 /* Alle X Wochen*/ ,64,/*Sonntag*/ 0,0,0);
 		    IPS_SetEventCyclicTimeFrom($eid, $hour, $minutes, 0);
+            IPS_SetEventScript($eid, 'BT_Update($_IPS["TARGET"]);');
 		    IPS_SetEventActive($eid, true);
             return $eid;
 	    }
