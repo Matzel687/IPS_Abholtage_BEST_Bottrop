@@ -7,7 +7,9 @@
 		{ "type": "ValidationTextBox", "name": "UpdateInterval", "caption": "Update Sonntags um " }
     ],
     "actions":
-    [ ],
+    [
+        { "type": "Button", "label": "Update", "onClick": "IQLFT_Update($id);" } 
+    ],
     "status":
     [
 		{ "code": 101, "icon": "active", "caption": "Instanz wird erstellt!" },
