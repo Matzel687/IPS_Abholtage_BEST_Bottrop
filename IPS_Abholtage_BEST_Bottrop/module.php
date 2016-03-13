@@ -112,6 +112,22 @@ class BEST_Bottrop_Muelltage extends IPSModule
             SetValue($this->GetIDForIdent("Woche_String"),$Wochestr);
     }
     
+   public function Tonnen_Heute()
+   {
+            $Abholtage['blaue Tonne'] = GetValue($this->GetIDForIdent("Blaue_Tonne"));
+            $Abholtage['graue Tonne']= GetValue($this->GetIDForIdent("Graue_Tonne"));
+            $Abholtage['gelbe Tonne']= GetValue($this->GetIDForIdent("Gelbe_Tonne"));
+            $Abholtage['braune Tonne']= GetValue($this->GetIDForIdent("Braune_Tonne"));
+
+	        foreach ($Abholtage as $TonneHeute)
+                {
+		        if (mktime(0, 0, 0, date("m") , date("d"), date("Y")) == $TonneHeute)
+		            {
+		                WFC_PushNotification(30216 /*[WebFront]*/, 'Mülltonnen', 'Morgen wird die '.array_search($TonneHeute, $Abholtage).' abgeholt!', '', 0);
+		            }
+	            }
+   }
+    
    public function SetTimerWeekByName($parentID, $name, $hour,$minutes)
     {
         $eid = @IPS_GetEventIDByName($name, $parentID);
