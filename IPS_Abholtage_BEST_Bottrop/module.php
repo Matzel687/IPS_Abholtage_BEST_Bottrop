@@ -146,7 +146,7 @@ class BEST_Bottrop_Muelltage extends IPSModule
 	            }
    }
     
-   public function SetTimerWeekByName($parentID, $name, $hour,$minutes)
+   private function SetTimerWeekByName($parentID, $name, $hour,$minutes)
     {
         $eid = @IPS_GetEventIDByName($name, $parentID);
         if($eid === false)
@@ -166,7 +166,7 @@ class BEST_Bottrop_Muelltage extends IPSModule
 	    }
     }
     
-   public function SetTimerEveryday($parentID, $name, $hour,$minutes)
+   private function SetTimerEveryday($parentID, $name, $hour,$minutes)
     {
     $eid = @IPS_GetEventIDByName($name, $parentID);
         if($eid === false)
@@ -186,7 +186,7 @@ class BEST_Bottrop_Muelltage extends IPSModule
 
     }
     
-   public Function Wochentag($Tag)
+   private Function Wochentag($Tag)
     {
         $Wochentage = array("So","Mo","Di","Mi","Do","Fr","Sa");
         $Wochentag = date("N",$Tag);
