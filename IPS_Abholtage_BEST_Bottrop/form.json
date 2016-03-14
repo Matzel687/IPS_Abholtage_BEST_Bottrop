@@ -4,7 +4,12 @@
         { "type": "Label", "label": "Straße und Hausnummer eingeben (nur Bottrop)" },
         { "type": "ValidationTextBox", "name": "Strasse", "caption": "Straßenname" },
         { "type": "ValidationTextBox", "name": "Nummer", "caption": "Hausnummer" },
-		{ "type": "ValidationTextBox", "name": "UpdateInterval", "caption": "Update Sonntags um " }
+		{ "type": "ValidationTextBox", "name": "UpdateInterval", "caption": "Update Sonntags um " },
+        { "type": "Label", "label": "*******Push Nachricht nächster Abholtermin*******" },        
+        { "type": "Label", "label": "WebFront-Instanz, welche für den Versand der Push-Nachrichten verwendet wird:" },
+        { "type": "SelectInstance", "name": "WebFrontInstanceID", "caption": "WebFront-Instanz" },
+        { "type": "ValidationTextBox", "name": "UpdateTonneMorgen", "caption": "Push Nachricht täglich um " },
+        { "type": "CheckBox", "name": "PushMsgAktiv", "caption": "Push-Benachrichtigung" }
     ],
     "actions":
     [

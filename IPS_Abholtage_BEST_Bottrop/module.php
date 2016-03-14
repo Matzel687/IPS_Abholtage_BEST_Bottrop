@@ -39,6 +39,8 @@ class BEST_Bottrop_Muelltage extends IPSModule
 		                    //Timer zeit setzen
                     $Updatetime = explode(":",$this->ReadPropertyString("UpdateInterval"));
                     $this->SetTimerWeekByName($this->InstanceID,"Abholtage_Update",$Updatetime[0],$Updatetime[1]);
+                    $Updatetime = explode(":",$this->ReadPropertyString("UpdateTonneMorgen"));
+                    $this->SetTimerWeekByName($this->InstanceID,"Push_Tonne_Morgen",$Updatetime[0],$Updatetime[1]);
                              //Instanz ist aktiv
 			        $this->SetStatus(102);
 				}
@@ -112,7 +114,7 @@ class BEST_Bottrop_Muelltage extends IPSModule
             SetValue($this->GetIDForIdent("Woche_String"),$Wochestr);
     }
     
-   public function Tonnen_Heute()
+   public function Tonnen_Morgen()
    {
             $Abholtage['blaue Tonne'] = GetValue($this->GetIDForIdent("Blaue_Tonne"));
             $Abholtage['graue Tonne']= GetValue($this->GetIDForIdent("Graue_Tonne"));
@@ -121,9 +123,10 @@ class BEST_Bottrop_Muelltage extends IPSModule
 
 	        foreach ($Abholtage as $TonneHeute)
                 {
-		        if (mktime(0, 0, 0, date("m") , date("d"), date("Y")) == $TonneHeute)
+		        if (mktime(0, 0, 0, date("m") , date("d")+1, date("Y")) == $TonneHeute)
 		            {
-		                WFC_PushNotification(30216 /*[WebFront]*/, 'Mülltonnen', 'Morgen wird die '.array_search($TonneHeute, $Abholtage).' abgeholt!', '', 0);
+		                WFC_PushNotification($this->ReadProperty("WebFrontInstanceID"), 'Mülltonnen', 'Morgen wird die '.array_search($TonneHeute, $Abholtage).' abgeholt!', '', 0);
+                        
 		            }
 	            }
    }
@@ -146,6 +149,25 @@ class BEST_Bottrop_Muelltage extends IPSModule
             IPS_SetHidden($eid, true);
             return $eid;
 	    }
+    }
+    
+   public function SetTimerEveryday($parentID, $name, $hour,$minutes)
+    {
+    $eid = @IPS_GetEventIDByName($name, $parentID);
+        if($eid === false)
+	    {
+            $eid = IPS_CreateEvent(1);
+            IPS_SetParent($eid, $parentID);
+            IPS_SetName($eid, $name);
+        }
+        else
+        {
+            IPS_SetEventCyclicTimeFrom($eid, $hour, $minutes, 0);
+            IPS_SetEventScript($eid, 'BT_Tonnen_Morgen($_IPS["TARGET"]);');
+		    IPS_SetEventActive($eid, true);
+            IPS_SetHidden($eid, true);
+        }
+
     }
     
    public Function Wochentag($Tag)
