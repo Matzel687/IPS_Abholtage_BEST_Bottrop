@@ -125,8 +125,7 @@ class BEST_Bottrop_Muelltage extends IPSModule
                 {
 		        if (mktime(0, 0, 0, date("m") , date("d")+1, date("Y")) == $TonneHeute)
 		            {
-		                WFC_PushNotification($this->ReadProperty("WebFrontInstanceID"), 'Mülltonnen', 'Morgen wird die '.array_search($TonneHeute, $Abholtage).' abgeholt!', '', 0);
-                        
+		                WFC_PushNotification($this->ReadPropertyInteger("WebFrontInstanceID"), 'Mülltonnen', 'Morgen wird die '.array_search($TonneHeute, $Abholtage).' abgeholt!', '', 0);
 		            }
 	            }
    }
