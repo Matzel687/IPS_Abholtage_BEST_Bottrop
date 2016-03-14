@@ -18,9 +18,9 @@ class BEST_Bottrop_Muelltage extends IPSModule
 
 			$this->RegisterPropertyString("Strasse", "Ernst-Wilczok-Platz");
 			$this->RegisterPropertyString("Nummer", "1");
-			$this->RegisterPropertyString("UpdateInterval", "23:55" );
+			$this->RegisterPropertyString("UpdateInterval", "00:00" );
             $this->RegisterPropertyInteger("WebFrontInstanceID", "");
-            $this->RegisterPropertyString("UpdateTonneMorgen", "" );
+            $this->RegisterPropertyString("UpdateTonneMorgen", "00:00" );
             
   		 }
 
@@ -169,6 +169,7 @@ class BEST_Bottrop_Muelltage extends IPSModule
         }
         else
         {
+            IPS_SetEventCyclic($eid, 2 /*  	Täglich */ , 0 ,0,0,0,0);
             IPS_SetEventCyclicTimeFrom($eid, $hour, $minutes, 0);
             IPS_SetEventScript($eid, 'BT_Tonnen_Morgen($_IPS["TARGET"]);');
 		    IPS_SetEventActive($eid, true);
