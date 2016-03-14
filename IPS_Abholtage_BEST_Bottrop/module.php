@@ -19,8 +19,10 @@ class BEST_Bottrop_Muelltage extends IPSModule
 			$this->RegisterPropertyString("Strasse", "Ernst-Wilczok-Platz");
 			$this->RegisterPropertyString("Nummer", "1");
 			$this->RegisterPropertyString("UpdateInterval", "00:00" );
+            $this->RegisterPropertyBoolean("PushMsgAktiv", false);
             $this->RegisterPropertyInteger("WebFrontInstanceID", "");
             $this->RegisterPropertyString("UpdateTonneMorgen", "00:00" );
+            
             
   		 }
 
@@ -44,11 +46,14 @@ class BEST_Bottrop_Muelltage extends IPSModule
                         $Updatetime = explode(":",$this->ReadPropertyString("UpdateInterval"));
                         $this->SetTimerWeekByName($this->InstanceID,"Abholtage_Update",$Updatetime[0],$Updatetime[1]);
                     }
-                    if ($this->ReadPropertyString("UpdateTonneMorgen") != "")
+                    if ($this->ReadPropertyString("UpdateTonneMorgen") != "") AND ($this->ReadPropertyBoolean("PushMsgAktiv") == true)
                     {
                         $Updatetime = explode(":",$this->ReadPropertyString("UpdateTonneMorgen"));
                         $this->SetTimerEveryday($this->InstanceID,"Push_Tonne_Morgen",$Updatetime[0],$Updatetime[1]);
                     }
+                    if ($this->ReadPropertyBoolean("PushMsgAktiv") == false)
+                        IPS_SetEventActive(@IPS_GetEventIDByName("Push_Tonne_Morgen",$this->InstanceID), false);
+                     
                              //Instanz ist aktiv
 			        $this->SetStatus(102);
 				}
@@ -124,6 +129,7 @@ class BEST_Bottrop_Muelltage extends IPSModule
     
    public function Tonnen_Morgen()
    {
+
             $Abholtage['blaue Tonne'] = GetValue($this->GetIDForIdent("Blaue_Tonne"));
             $Abholtage['graue Tonne']= GetValue($this->GetIDForIdent("Graue_Tonne"));
             $Abholtage['gelbe Tonne']= GetValue($this->GetIDForIdent("Gelbe_Tonne"));
@@ -133,7 +139,9 @@ class BEST_Bottrop_Muelltage extends IPSModule
                 {
 		        if (mktime(0, 0, 0, date("m") , date("d")+1, date("Y")) == $TonneHeute)
 		            {
-		                WFC_PushNotification($this->ReadPropertyInteger("WebFrontInstanceID"), 'Mülltonnen', 'Morgen wird die '.array_search($TonneHeute, $Abholtage).' abgeholt!', '', 0);
+                        $WebFrontIns = $this->ReadPropertyInteger("WebFrontInstanceID");
+                        if (($WebFrontIns != "") AND (@IPS_InstanceExists($WebFrontIns) === true))
+		                WFC_PushNotification($WebFrontIns, 'Mülltonnen', 'Morgen wird die '.array_search($TonneHeute, $Abholtage).' abgeholt!', '', 0);
 		            }
 	            }
    }

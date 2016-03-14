@@ -8,11 +8,12 @@
 		{ "type": "ValidationTextBox", "name": "UpdateInterval", "caption": "Uhrzeit" },
         { "type": "Label", "label": "*******Push Nachricht nächster Abholtermin*******" },
         { "type": "Label", "label": "WebFront-Instanz, welche für den Versand der Push-Nachrichten verwendet wird:" },
+        { "type": "CheckBox", "name": "PushMsgAktiv", "caption": "Push-Benachrichtigung Aktiv/Inaktiv" },
         { "type": "SelectInstance", "name": "WebFrontInstanceID", "caption": "WebFront-Instanz" },
         { "type": "Label", "label": "*******Push Nachricht täglich um (hh:mm)*******" },
         { "type": "Label", "label": "*******Nachricht wird nur verschickt wenn am nächsten Tag eine Tonne abgeholt wird*******" },
-        { "type": "ValidationTextBox", "name": "UpdateTonneMorgen", "caption": "Uhrzeit " },
-        { "type": "CheckBox", "name": "PushMsgAktiv", "caption": "Push-Benachrichtigung" }
+        { "type": "ValidationTextBox", "name": "UpdateTonneMorgen", "caption": "Uhrzeit " }
+
     ],
     "actions":
     [
