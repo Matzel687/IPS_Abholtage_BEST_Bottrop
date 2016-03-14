@@ -38,10 +38,16 @@ class BEST_Bottrop_Muelltage extends IPSModule
                      $this->RegisterVariableInteger("Gelbe_Tonne","Gelbe Tonne","UnixTimestamp",4);
                      $this->RegisterVariableString("Woche_String","Wochenübersicht","HTMLBox",5);
 		                    //Timer zeit setzen
-                    $Updatetime = explode(":",$this->ReadPropertyString("UpdateInterval"));
-                    $this->SetTimerWeekByName($this->InstanceID,"Abholtage_Update",$Updatetime[0],$Updatetime[1]);
-                    $Updatetime = explode(":",$this->ReadPropertyString("UpdateTonneMorgen"));
-                    $this->SetTimerWeekByName($this->InstanceID,"Push_Tonne_Morgen",$Updatetime[0],$Updatetime[1]);
+                    if ($this->ReadPropertyString("UpdateInterval") != "")
+                    {
+                        $Updatetime = explode(":",$this->ReadPropertyString("UpdateInterval"));
+                        $this->SetTimerWeekByName($this->InstanceID,"Abholtage_Update",$Updatetime[0],$Updatetime[1]);
+                    }
+                    if ($this->ReadPropertyString("UpdateTonneMorgen") != "")
+                    {
+                        $Updatetime = explode(":",$this->ReadPropertyString("UpdateTonneMorgen"));
+                        $this->SetTimerEveryday($this->InstanceID,"Push_Tonne_Morgen",$Updatetime[0],$Updatetime[1]);
+                    }
                              //Instanz ist aktiv
 			        $this->SetStatus(102);
 				}
