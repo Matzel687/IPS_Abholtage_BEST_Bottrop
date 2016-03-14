@@ -46,7 +46,7 @@ class BEST_Bottrop_Muelltage extends IPSModule
                         $Updatetime = explode(":",$this->ReadPropertyString("UpdateInterval"));
                         $this->SetTimerWeekByName($this->InstanceID,"Abholtage_Update",$Updatetime[0],$Updatetime[1]);
                     }
-                    if ($this->ReadPropertyString("UpdateTonneMorgen") != "") AND ($this->ReadPropertyBoolean("PushMsgAktiv") == true)
+                    if (($this->ReadPropertyString("UpdateTonneMorgen") != "") AND ($this->ReadPropertyBoolean("PushMsgAktiv") == true))
                     {
                         $Updatetime = explode(":",$this->ReadPropertyString("UpdateTonneMorgen"));
                         $this->SetTimerEveryday($this->InstanceID,"Push_Tonne_Morgen",$Updatetime[0],$Updatetime[1]);
