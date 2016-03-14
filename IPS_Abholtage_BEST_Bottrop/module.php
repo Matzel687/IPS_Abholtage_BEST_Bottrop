@@ -20,6 +20,7 @@ class BEST_Bottrop_Muelltage extends IPSModule
 			$this->RegisterPropertyString("Nummer", "1");
 			$this->RegisterPropertyString("UpdateInterval", "23:55" );
             $this->RegisterPropertyInteger("WebFrontInstanceID", "");
+            $this->RegisterPropertyString("UpdateTonneMorgen", "" );
             
   		 }
 

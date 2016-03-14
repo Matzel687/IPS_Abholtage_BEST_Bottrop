@@ -4,11 +4,14 @@
         { "type": "Label", "label": "Straße und Hausnummer eingeben (nur Bottrop)" },
         { "type": "ValidationTextBox", "name": "Strasse", "caption": "Straßenname" },
         { "type": "ValidationTextBox", "name": "Nummer", "caption": "Hausnummer" },
-		{ "type": "ValidationTextBox", "name": "UpdateInterval", "caption": "Update Sonntags um (hh:mm) " },
-        { "type": "Label", "label": "*******Push Nachricht nächster Abholtermin*******" },        
+        { "type": "Label", "label": "*******Update Sonntags um (hh:mm)*******" },
+		{ "type": "ValidationTextBox", "name": "UpdateInterval", "caption": "Uhrzeit" },
+        { "type": "Label", "label": "*******Push Nachricht nächster Abholtermin*******" },
         { "type": "Label", "label": "WebFront-Instanz, welche für den Versand der Push-Nachrichten verwendet wird:" },
         { "type": "SelectInstance", "name": "WebFrontInstanceID", "caption": "WebFront-Instanz" },
-        { "type": "ValidationTextBox", "name": "UpdateTonneMorgen", "caption": "Push Nachricht täglich um (hh:mm) " },
+        { "type": "Label", "label": "*******Push Nachricht täglich um (hh:mm)*******" },
+        { "type": "Label", "label": "*******Nachricht wird nur verschickt wenn am nächsten Tag eine Tonne abgeholt wird*******" },
+        { "type": "ValidationTextBox", "name": "UpdateTonneMorgen", "caption": "Uhrzeit " },
         { "type": "CheckBox", "name": "PushMsgAktiv", "caption": "Push-Benachrichtigung" }
     ],
     "actions":
