@@ -1,34 +1,29 @@
 <?
     // Klassendefinition
-class BEST_Bottrop_Muelltage extends IPSModule
-{
+class BEST_Bottrop_Muelltage extends IPSModule{
+    
    // Der Konstruktor des Moduls
    // Überschreibt den Standard Kontruktor von IPS
-   public function __construct($InstanceID)
-		{
+   public function __construct($InstanceID){
          // Diese Zeile nicht löschen
          parent::__construct($InstanceID);
          // Selbsterstellter Code
-  		 }
+  	}
 
-   public function Create()
-		{
-     		 // Diese Zeile nicht löschen.
-    		  parent::Create();
+   public function Create(){
+     	 // Diese Zeile nicht löschen.
+        parent::Create();
 
-			$this->RegisterPropertyString("Strasse", "Ernst-Wilczok-Platz");
-			$this->RegisterPropertyString("Nummer", "1");
-			$this->RegisterPropertyString("UpdateInterval", "00:00" );
-            $this->RegisterPropertyBoolean("PushMsgAktiv", false);
-            $this->RegisterPropertyInteger("WebFrontInstanceID", "");
-            $this->RegisterPropertyString("UpdateTonneMorgen", "00:00" );
-            
-            
-  		 }
+		$this->RegisterPropertyString("Strasse", "Ernst-Wilczok-Platz");
+		$this->RegisterPropertyString("Nummer", "1");
+		$this->RegisterPropertyString("UpdateInterval", "00:00" );
+        $this->RegisterPropertyBoolean("PushMsgAktiv", false);
+        $this->RegisterPropertyInteger("WebFrontInstanceID", "");
+        $this->RegisterPropertyString("UpdateTonneMorgen", "00:00" );
+    }
 
         // Überschreibt die intere IPS_ApplyChanges($id) Funktion
-   public function ApplyChanges()
-		{
+   public function ApplyChanges(){
          // Diese Zeile nicht löschen
          parent::ApplyChanges();
 
@@ -107,7 +102,7 @@ class BEST_Bottrop_Muelltage extends IPSModule
             
             /// HTML BOX Inhalt Tabbele erstellen
             $week = mktime(0,0,0, date('m'), date('d')+7, date('y')); // Datum von der Folgenden Woche
-            
+            $Wochestr.= "<link rel="stylesheet" href='//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'></link>";
             $Wochestr = "<table width='100%' cellspacing='7' cellpadding='5'>";
             if ($TerminBraun <= $week)
 	            $Wochestr.= "<td style='border:1px width=50px solid #3b3b4d' bgcolor='#A95A57' width='25%'>".$this->Wochentag($TerminBraun)."</td>";
@@ -116,7 +111,7 @@ class BEST_Bottrop_Muelltage extends IPSModule
             if ($TerminGelb <= $week)
                 $Wochestr.= "<td style='border:1px solid #3b3b4d'  bgcolor='#F9E21B' width='25%'><font color='black'>".$this->Wochentag($TerminGelb)."</font></td>";
             if ($TerminGrau <= $week)
-	            $Wochestr.= "<td style='border:1px solid #3b3b4d' bgcolor='#9E9E9E' width='25%'>".$this->Wochentag($TerminGrau)."</td>";
+	            $Wochestr.= "<td style='border:1px solid #3b3b4d' width='25%'><span class='fa fa-trash' color='#9E9E9E'></span>".$this->Wochentag($TerminGrau)."</td>";
             $Wochestr .= "</table>";
 
             
@@ -127,13 +122,12 @@ class BEST_Bottrop_Muelltage extends IPSModule
             SetValue($this->GetIDForIdent("Woche_String"),$Wochestr);
     }
     
-   public function Tonnen_Morgen()
-   {
+   public function Tonnen_Morgen(){
 
-            $Abholtage['blaue Tonne'] = GetValue($this->GetIDForIdent("Blaue_Tonne"));
-            $Abholtage['graue Tonne']= GetValue($this->GetIDForIdent("Graue_Tonne"));
-            $Abholtage['gelbe Tonne']= GetValue($this->GetIDForIdent("Gelbe_Tonne"));
-            $Abholtage['braune Tonne']= GetValue($this->GetIDForIdent("Braune_Tonne"));
+        $Abholtage['blaue Tonne']   = GetValue($this->GetIDForIdent("Blaue_Tonne"));
+        $Abholtage['graue Tonne']   = GetValue($this->GetIDForIdent("Graue_Tonne"));
+        $Abholtage['gelbe Tonne']   = GetValue($this->GetIDForIdent("Gelbe_Tonne"));
+        $Abholtage['braune Tonne']  = GetValue($this->GetIDForIdent("Braune_Tonne"));
 
 	        foreach ($Abholtage as $TonneHeute)
                 {
@@ -186,10 +180,9 @@ class BEST_Bottrop_Muelltage extends IPSModule
 
     }
     
-   private Function Wochentag($Tag)
-    {
-        $Wochentage = array("So","Mo","Di","Mi","Do","Fr","Sa");
-        $Wochentag = date("N",$Tag);
+   private Function Wochentag($Tag){
+        $Wochentage     = array("So","Mo","Di","Mi","Do","Fr","Sa");
+        $Wochentag      = date("N",$Tag);
         return $Wochentage[$Wochentag]." / ".date("d.m.Y",$Tag) ; 
     }
 
