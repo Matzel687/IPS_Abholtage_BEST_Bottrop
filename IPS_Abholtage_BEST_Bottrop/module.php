@@ -30,11 +30,11 @@ class BEST_Bottrop_Muelltage extends IPSModule{
 			if (($this->ReadPropertyString("Strasse") != "") AND ($this->ReadPropertyString("Nummer") != ""))
 				{
                             //Variablen erstellen Wetter jetzt
-                     $this->RegisterVariableInteger("Graue_Tonne","Graue Tonne","UnixTimestamp",1);
-                     $this->RegisterVariableInteger("Braune_Tonne","Braune Tonne","UnixTimestamp",2);
-                     $this->RegisterVariableInteger("Blaue_Tonne","Blaue Tonne","UnixTimestamp",3);
-                     $this->RegisterVariableInteger("Gelbe_Tonne","Gelbe Tonne","UnixTimestamp",4);
-                     $this->RegisterVariableString("Woche_String","Wochenübersicht","HTMLBox",5);
+                    $this->RegisterVariableInteger("Graue_Tonne","Graue Tonne","UnixTimestamp",1);
+                    $this->RegisterVariableInteger("Braune_Tonne","Braune Tonne","UnixTimestamp",2);
+                    $this->RegisterVariableInteger("Blaue_Tonne","Blaue Tonne","UnixTimestamp",3);
+                    $this->RegisterVariableInteger("Gelbe_Tonne","Gelbe Tonne","UnixTimestamp",4);
+                    $this->RegisterVariableString("Woche_String","Wochenübersicht","HTMLBox",5);
 		                    //Timer zeit setzen
                     if ($this->ReadPropertyString("UpdateInterval") != "")
                     {
@@ -102,17 +102,17 @@ class BEST_Bottrop_Muelltage extends IPSModule{
             
             /// HTML BOX Inhalt Tabbele erstellen
             $week = mktime(0,0,0, date('m'), date('d')+7, date('y')); // Datum von der Folgenden Woche
-            $Wochestr.= "<link rel="stylesheet" href='//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'></link>";
-            $Wochestr = "<table width='100%' cellspacing='7' cellpadding='5'>";
+            $Wochestr="<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'>";
+            $Wochestr.= "<table width='100%' cellspacing='2' cellpadding='2'>";
             if ($TerminBraun <= $week)
-	            $Wochestr.= "<td style='border:1px width=50px solid #3b3b4d' bgcolor='#A95A57' width='25%'>".$this->Wochentag($TerminBraun)."</td>";
+	            $Wochestr.= "<td width='25%' style='color:#A95A57'><i class='fa fa-trash fa-2x'></i>".$this->Wochentag($TerminBraun)."</td>";
             if ($TerminBlau <= $week)
-	            $Wochestr.= "<td style='border:1px solid #3b3b4d' bgcolor='#1B6DB7' width='25%'>".$this->Wochentag($TerminBlau)."</td>";
+	            $Wochestr.= "<td width='25%' style='color:#1B6DB7'><i class='fa fa-trash fa-2x'></i>".$this->Wochentag($TerminBlau)."</td>";
             if ($TerminGelb <= $week)
-                $Wochestr.= "<td style='border:1px solid #3b3b4d'  bgcolor='#F9E21B' width='25%'><font color='black'>".$this->Wochentag($TerminGelb)."</font></td>";
+                 $Wochestr.= "<td width='25%' style='color:#F9E21B'><i class='fa fa-trash fa-2x'></i>".$this->Wochentag($TerminGelb)."</td>";
             if ($TerminGrau <= $week)
-	            $Wochestr.= "<td style='border:1px solid #3b3b4d' width='25%'><span class='fa fa-trash' color='#9E9E9E'></span>".$this->Wochentag($TerminGrau)."</td>";
-            $Wochestr .= "</table>";
+	            $Wochestr.= "<td width='25%' style='color:#9E9E9E'><i class='fa fa-trash fa-2x'></i>".$this->Wochentag($TerminGrau)."</td>";
+            $Wochestr.= "</table>";
 
             
 			SetValue($this->GetIDForIdent("Graue_Tonne"),$TerminGrau);
