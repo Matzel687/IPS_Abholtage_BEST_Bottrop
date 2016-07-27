@@ -47,7 +47,6 @@ class BEST_Bottrop_Muelltage extends IPSModule{
 
                             // Push Nachrichten aktivieren / deaktivieren
                         IPS_SetEventActive(@IPS_GetEventIDByName("Push_Nachricht",$this->InstanceID), $this->ReadPropertyBoolean("PushMsgAktiv"));
-                        IPS_LogMessage("Best Abfall Kalender", "Push Nachricht".($this->ReadPropertyBoolean("PushMsgAktiv")));
                              //Instanz ist aktiv
 			        $this->SetStatus(102);
 				}
@@ -116,31 +115,24 @@ class BEST_Bottrop_Muelltage extends IPSModule{
 
             //HTML Box Inhalt schreiben
             SetValue($this->GetIDForIdent("Woche_String"),$Wochestr);
-            
+
             return IPS_LogMessage("Best Abfall Kalender", "Daten wurden aktualisiert");
     }
     
    public function Push_Nachricht(){
 
         $Bufferdata = $this->GetBuffer("Termine");
-        $Termindaten = json_decode($Bufferdata,TRUE);  
-        strtotime($Termindaten);
+        $Abholtage= json_decode($Bufferdata,TRUE);  
 
-        $Abholtage['blaue Tonne']   = GetValue($this->GetIDForIdent("Blaue_Tonne"));
-        $Abholtage['graue Tonne']   = GetValue($this->GetIDForIdent("Graue_Tonne"));
-        $Abholtage['gelbe Tonne']   = GetValue($this->GetIDForIdent("Gelbe_Tonne"));
-        $Abholtage['braune Tonne']  = GetValue($this->GetIDForIdent("Braune_Tonne"));
+	    foreach ($Abholtage as $Tonnentyp => $Datum){
+		    if (mktime(0, 0, 0, date("m") , date("d")+1, date("Y")) == strtotime($Datum[0])){
+                $WebFrontIns = $this->ReadPropertyInteger("WebFrontInstanceID");
+                if ($WebFrontIns != "")
+		            WFC_PushNotification($WebFrontIns, 'Mülltonnen', 'Morgen wird die '.$Tonnentyp.' abgeholt!', '', 0);
+		    }
+		}   
+    }
 
-	        foreach ($Abholtage as $TonneHeute)
-                {
-		        if (mktime(0, 0, 0, date("m") , date("d")+1, date("Y")) == $TonneHeute)
-		            {
-                        $WebFrontIns = $this->ReadPropertyInteger("WebFrontInstanceID");
-                        if ($WebFrontIns != "")
-		                WFC_PushNotification($WebFrontIns, 'Mülltonnen', 'Morgen wird die '.array_search($TonneHeute, $Abholtage).' abgeholt!', '', 0);
-		            }
-	            }
-   }
 
    public function Termine(string $Tonne,int $Datensatz)
    {
