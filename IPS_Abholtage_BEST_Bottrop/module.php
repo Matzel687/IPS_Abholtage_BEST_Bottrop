@@ -136,7 +136,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
    {
         $Bufferdata = $this->GetBuffer("Termine");
         $Termindaten = json_decode($Bufferdata,TRUE);  
-        return strtotime($Termindaten[$Tonne][$Datensatz]);
+        return $Termindaten[$Tonne][$Datensatz];
    }
     
    private function SetTimerWeekByName($parentID, $name, $hour,$minutes)
