@@ -37,7 +37,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
                     if ($this->ReadPropertyString("UpdateInterval") != "")
                     {
                         $Updatetime = explode(":",$this->ReadPropertyString("UpdateInterval"));
-                        $this->SetTimerWeekByName($this->InstanceID,"Abholtage_Update",$this->ReadPropertyInteger("Wochentag"),$Updatetime[0],$Updatetime[1]);
+                        $this->SetTimerkwByName($this->InstanceID,"Abholtage_Update",$this->ReadPropertyInteger("Wochentag"),$Updatetime[0],$Updatetime[1]);
                     }
                     if (($this->ReadPropertyString("UpdatePushNachricht") != "") AND ($this->ReadPropertyBoolean("PushMsgAktiv") == true))
                     {
@@ -91,25 +91,24 @@ class BEST_Bottrop_Muelltage extends IPSModule{
             $this->SetBuffer("Termine",json_encode($Abholtage));
 
             // Datum aus dem Array Abholtage in Unix Timestamp umwandeln 
-            $TerminBlau=strtotime($Abholtage['blaue Tonne'][0]);  
-            $TerminGrau=strtotime($Abholtage['graue Tonne'][0]);
-            $TerminGelb=strtotime($Abholtage['gelbe Tonne'][0]);
-            $TerminBraun=strtotime($Abholtage['braune Tonne'][0]);
-            
+            $TerminBlau=date("W",strtotime($Abholtage['blaue Tonne'][0]));  
+            $TerminGrau=date("W",strtotime($Abholtage['graue Tonne'][0]));
+            $TerminGelb=date("W",strtotime($Abholtage['gelbe Tonne'][0]));
+            $TerminBraun=date("W",strtotime($Abholtage['braune Tonne'][0]));
+            $kw = date("W",time()); //Kalneder Woche 
             // HTML Box leeren
             SetValue($this->GetIDForIdent("Woche_String"),"");
             
             /// HTML BOX Inhalt Tabbele erstellen
-            $week = mktime(0,0,0, date('m'), date('d')+7, date('y')); // Datum von der Folgenden Woche
             $Wochestr="<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'>";
             $Wochestr.= "<table width='100%' cellspacing='2' cellpadding='2'>";
-            if ($TerminBraun <= $week)
+            if ($TerminBraun == $kw)
 	            $Wochestr.= "<td width='25%' style='color:#A95A57'><i class='fa fa-trash fa-2x'></i> ".$this->Wochentag($TerminBraun)."</td>";
-            if ($TerminBlau <= $week)
+            if ($TerminBlau == $kw)
 	            $Wochestr.= "<td width='25%' style='color:#1B6DB7'><i class='fa fa-trash fa-2x'></i> ".$this->Wochentag($TerminBlau)."</td>";
-            if ($TerminGelb <= $week)
+            if ($TerminGelb == $kw)
                  $Wochestr.= "<td width='25%' style='color:#F9E21B'><i class='fa fa-trash fa-2x'></i> ".$this->Wochentag($TerminGelb)."</td>";
-            if ($TerminGrau <= $week)
+            if ($TerminGrau == $kw)
 	            $Wochestr.= "<td width='25%' style='color:#9E9E9E'><i class='fa fa-trash fa-2x'></i> ".$this->Wochentag($TerminGrau)."</td>";
             $Wochestr.= "</table>";
 
@@ -153,7 +152,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
         }           
    }
     
-   private function SetTimerWeekByName($parentID, $name,$day,$hour,$minutes)
+   private function SetTimerkwByName($parentID, $name,$day,$hour,$minutes)
     {
         $eid = @IPS_GetEventIDByName($name, $parentID);
         if($eid === false)
