@@ -16,7 +16,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
 
 		$this->RegisterPropertyString("Strasse", "Ernst-Wilczok-Platz");
 		$this->RegisterPropertyString("Nummer", "1");
-        $this->RegisterPropertyInteger("Wochentag", 0);
+        $this->RegisterPropertyInteger("Wochentag", 64);
 		$this->RegisterPropertyString("UpdateInterval", "00:00" );
         $this->RegisterPropertyBoolean("PushMsgAktiv", false);
         $this->RegisterPropertyInteger("WebFrontInstanceID", "");
@@ -30,11 +30,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
 
 			if (($this->ReadPropertyString("Strasse") != "") AND ($this->ReadPropertyString("Nummer") != ""))
 				{
-                            //Variablen erstellen Wetter jetzt
-                    $this->RegisterVariableInteger("Graue_Tonne","Graue Tonne","UnixTimestamp",1);
-                    $this->RegisterVariableInteger("Braune_Tonne","Braune Tonne","UnixTimestamp",2);
-                    $this->RegisterVariableInteger("Blaue_Tonne","Blaue Tonne","UnixTimestamp",3);
-                    $this->RegisterVariableInteger("Gelbe_Tonne","Gelbe Tonne","UnixTimestamp",4);
+                            //Variablen erstellen
                     $this->RegisterVariableString("Woche_String","Wochenübersicht","HTMLBox",5);
 		                    //Timer zeit setzen
                     if ($this->ReadPropertyString("UpdateInterval") != "")
@@ -90,7 +86,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
 					$Abholtage[$TonnenTyp][$i] = $Termin;  //Array Abholtage
 				}
  			}
-            
+            // Termindaten Array in Json umwandeln und in Buffer speichern 
             $this->SetBuffer("Termine",json_encode($Abholtage));
 
             // Datum aus dem Array Abholtage in Unix Timestamp umwandeln 
@@ -115,11 +111,6 @@ class BEST_Bottrop_Muelltage extends IPSModule{
 	            $Wochestr.= "<td width='25%' style='color:#9E9E9E'><i class='fa fa-trash fa-2x'></i> ".$this->Wochentag($TerminGrau)."</td>";
             $Wochestr.= "</table>";
 
-            
-			SetValue($this->GetIDForIdent("Graue_Tonne"),$TerminGrau);
-			SetValue($this->GetIDForIdent("Braune_Tonne"),$TerminBraun);
-			SetValue($this->GetIDForIdent("Blaue_Tonne"),$TerminBlau);
-			SetValue($this->GetIDForIdent("Gelbe_Tonne"),$TerminGelb);
             SetValue($this->GetIDForIdent("Woche_String"),$Wochestr);
     }
     
@@ -145,7 +136,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
    {
         $Bufferdata = $this->GetBuffer("Termine");
         $Termindaten = json_decode($Bufferdata,TRUE);  
-        return $Termindaten[$Tonne][$Datensatz];
+        return strtotime($Termindaten[$Tonne][$Datensatz]);
    }
     
    private function SetTimerWeekByName($parentID, $name, $hour,$minutes)
