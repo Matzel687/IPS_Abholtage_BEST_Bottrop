@@ -91,7 +91,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
 				}
  			}
             
-            $this->SetBuffer("Termine",json_encode($Abholtage);
+            $this->SetBuffer("Termine",json_encode($Abholtage));
 
             // Datum aus dem Array Abholtage in Unix Timestamp umwandeln 
             $TerminBlau=strtotime($Abholtage['blaue Tonne'][0]);  
