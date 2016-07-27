@@ -24,7 +24,7 @@
         { "type": "SelectInstance", "name": "WebFrontInstanceID", "caption": "WebFront-Instanz" },
         { "type": "Label", "label": "*******Push Nachricht täglich um (hh:mm)*******" },
         { "type": "Label", "label": "*******Nachricht wird nur verschickt wenn am nächsten Tag eine Tonne abgeholt wird*******" },
-        { "type": "ValidationTextBox", "name": "UpdateTonneMorgen", "caption": "Uhrzeit " }
+        { "type": "ValidationTextBox", "name": "UpdatePushNachricht", "caption": "Uhrzeit " }
     ],
     "actions":
     [

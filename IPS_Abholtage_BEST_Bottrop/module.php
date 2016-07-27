@@ -20,7 +20,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
 		$this->RegisterPropertyString("UpdateInterval", "00:00" );
         $this->RegisterPropertyBoolean("PushMsgAktiv", false);
         $this->RegisterPropertyInteger("WebFrontInstanceID", "");
-        $this->RegisterPropertyString("UpdateTonneMorgen", "00:00" );
+        $this->RegisterPropertyString("UpdatePushNachricht", "00:00" );
     }
 
         // Überschreibt die intere IPS_ApplyChanges($id) Funktion
@@ -36,16 +36,15 @@ class BEST_Bottrop_Muelltage extends IPSModule{
                     if ($this->ReadPropertyString("UpdateInterval") != "")
                     {
                         $Updatetime = explode(":",$this->ReadPropertyString("UpdateInterval"));
-                        $this->SetTimerWeekByName($this->InstanceID,"Abholtage_Update",$Updatetime[0],$Updatetime[1]);
+                        $this->SetTimerWeekByName($this->InstanceID,"Abholtage_Update",$this->ReadPropertyInteger("Wochentag"),$Updatetime[0],$Updatetime[1]);
                     }
-                    if (($this->ReadPropertyString("UpdateTonneMorgen") != "") AND ($this->ReadPropertyBoolean("PushMsgAktiv") == true))
+                    if (($this->ReadPropertyString("UpdatePushNachricht") != "") AND ($this->ReadPropertyBoolean("PushMsgAktiv") == true))
                     {
-                        $Updatetime = explode(":",$this->ReadPropertyString("UpdateTonneMorgen"));
-                        $this->SetTimerEveryday($this->InstanceID,"Push_Tonne_Morgen",$Updatetime[0],$Updatetime[1]);
+                        $Updatetime = explode(":",$this->ReadPropertyString("UpdatePushNachricht"));
+                        $this->SetTimerEveryday($this->InstanceID,"Push_Nachricht",$Updatetime[0],$Updatetime[1]);
                     }
                     if ($this->ReadPropertyBoolean("PushMsgAktiv") == false)
-                        IPS_SetEventActive(@IPS_GetEventIDByName("Push_Tonne_Morgen",$this->InstanceID), false);
-                     
+                        IPS_SetEventActive(@IPS_GetEventIDByName("Push_Nachricht",$this->InstanceID), false);
                              //Instanz ist aktiv
 			        $this->SetStatus(102);
 				}
@@ -114,7 +113,11 @@ class BEST_Bottrop_Muelltage extends IPSModule{
             SetValue($this->GetIDForIdent("Woche_String"),$Wochestr);
     }
     
-   public function Tonnen_Morgen(){
+   public function Push_Nachricht(){
+
+        $Bufferdata = $this->GetBuffer("Termine");
+        $Termindaten = json_decode($Bufferdata,TRUE);  
+        strtotime($Termindaten);
 
         $Abholtage['blaue Tonne']   = GetValue($this->GetIDForIdent("Blaue_Tonne"));
         $Abholtage['graue Tonne']   = GetValue($this->GetIDForIdent("Graue_Tonne"));
@@ -139,7 +142,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
         return strtotime($Termindaten[$Tonne][$Datensatz]);
    }
     
-   private function SetTimerWeekByName($parentID, $name, $hour,$minutes)
+   private function SetTimerWeekByName($parentID, $name,$day,$hour,$minutes)
     {
         $eid = @IPS_GetEventIDByName($name, $parentID);
         if($eid === false)
@@ -150,7 +153,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
         }
         else
 	    {
-		    IPS_SetEventCyclic($eid, 3 /*  	Wöchentlich */ , 1 /* Alle X Wochen*/ ,64,/*Sonntag*/ 0,0,0);
+		    IPS_SetEventCyclic($eid, 3 /*  	Wöchentlich */ , 1 /* Alle X Wochen*/ ,$day,/*Sonntag*/ 0,0,0);
 		    IPS_SetEventCyclicTimeFrom($eid, $hour, $minutes, 0);
             IPS_SetEventScript($eid, 'BT_Update($_IPS["TARGET"]);');
 		    IPS_SetEventActive($eid, true);
@@ -172,7 +175,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
         {
             IPS_SetEventCyclic($eid, 2 /*  	Täglich */ , 0 ,0,0,0,0);
             IPS_SetEventCyclicTimeFrom($eid, $hour, $minutes, 0);
-            IPS_SetEventScript($eid, 'BT_Tonnen_Morgen($_IPS["TARGET"]);');
+            IPS_SetEventScript($eid, 'BT_ Push_Nachricht($_IPS["TARGET"]);');
 		    IPS_SetEventActive($eid, true);
             IPS_SetHidden($eid, true);
         }
