@@ -29,7 +29,7 @@
     "actions":
     [
         { "type": "Button", "label": "Update", "onClick": "BT_Update($id);" } ,
-        { "type": "Button", "label": "Push Nachricht", "onClick": "Push_Nachricht($id);" } 
+        { "type": "Button", "label": "Push Nachricht", "onClick": "BT_Push_Nachricht($id);" } 
     ],
     "status":
     [
