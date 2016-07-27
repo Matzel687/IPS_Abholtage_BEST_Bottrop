@@ -135,7 +135,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
 	            }
    }
 
-   public function Termine($Tonne,$Datensatz)
+   public function Termine(string $Tonne,int $Datensatz)
    {
         $Bufferdata = $this->GetBuffer("Termine");
         $Termindaten = json_decode($Bufferdata,TRUE);  
