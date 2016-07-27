@@ -194,8 +194,4 @@ class BEST_Bottrop_Muelltage extends IPSModule{
     }
 
 }
-
-for ($i=0; $i < ; $i++) { 
-    # code...
-}
 ?>
