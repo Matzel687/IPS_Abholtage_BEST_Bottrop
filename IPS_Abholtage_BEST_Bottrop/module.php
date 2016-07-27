@@ -140,7 +140,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
    {
         $Bufferdata = $this->GetBuffer("Termine");
         $Termindaten = json_decode($Bufferdata,TRUE);
-        $TonnenTyp == array('graue Tonne','blaue Tonne', 'gelbe Tonne', 'braune Tonne');
+        $TonnenTyp = array('graue Tonne','blaue Tonne', 'gelbe Tonne', 'braune Tonne');
 
         if (empty($Tonne) AND empty($Datensatz) ) {   
                 return $Termindaten; 
