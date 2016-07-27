@@ -16,6 +16,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
 
 		$this->RegisterPropertyString("Strasse", "Ernst-Wilczok-Platz");
 		$this->RegisterPropertyString("Nummer", "1");
+        $htis->RegisterPropertyInteger("Wochentag","1");
 		$this->RegisterPropertyString("UpdateInterval", "00:00" );
         $this->RegisterPropertyBoolean("PushMsgAktiv", false);
         $this->RegisterPropertyInteger("WebFrontInstanceID", "");
@@ -67,36 +68,36 @@ class BEST_Bottrop_Muelltage extends IPSModule{
             // Seite von der BEST auslesen
 			$html = file_get_contents("http://www.best-bottrop.de/abfallkalender/start/uebersicht?strassenname=".$Strasse."&hausnummer=".$Nummer);
 			// Prüfe ob  "BEST Bottrop Abfuhrkalender" im Quellcode vorhanden
-			if(strpos($html, "BEST Bottrop Abfuhrkalender") === false)
-			{
+			if(strpos($html, "BEST Bottrop Abfuhrkalender") === false){
 				echo "Ungültige Adresse!";
 				return;
 			}
 
-			while(true)
-			{
-			   //Zwischen <strong> und </strong> suchen nach Tonnen Typ (Grau, Braun, Gelb, Blau)
-				$html = stristr($html,  '<strong>');
+			while(true){
+				//Zwischen <strong> und </strong> suchen nach Tonnen Typ (Grau, Braun, Gelb, Blau)
+				$html = stristr($html,  '<strong>Termine');
 				if($html === false)
 						break;
-			   $html = stristr($html, '>');
-				$TonnenTyp = substr($html, 22, strpos($html, "</strong>")-22);  // Tonnen Typ eintragen
-				
-				//Zwischen <tr><td class="b"> und </td></tr> suchen nach Abholdatum
-				$html = stristr($html, '<tr><td class="b">');
-				if($html === false)
-					break;
 				$html = stristr($html, '>');
-				$Termin = substr($html, 15, strpos($html, "</td></tr>")-15);  // Abholdatum eintragen
-
-           	$Abholtage[$TonnenTyp] = $Termin;  //Array Abholtage
-			}
+				$TonnenTyp = substr($html, 22, strpos($html, "</strong>")-22);  // Tonnen Typ eintragen
+				//Zwischen <tr><td class="b"> und </td></tr> suchen nach Abholdatum
+				for ($i=0; $i < 3; $i++) { 
+					$html = stristr($html, '<tr><td class="b">');
+					if($html === false)
+						break;
+					$html = stristr($html, '>');
+					$Termin = substr($html, 15, strpos($html, "</td></tr>")-15);  // Abholdatum eintragen
+					$Abholtage[$TonnenTyp][$i] = $Termin;  //Array Abholtage
+				}
+ 			}
             
+            $this->SetBuffer("Termine", $Abholtage);
+
             // Datum aus dem Array Abholtage in Unix Timestamp umwandeln 
-            $TerminBlau=strtotime($Abholtage['blaue Tonne']);  
-            $TerminGrau=strtotime($Abholtage['graue Tonne']);
-            $TerminGelb=strtotime($Abholtage['gelbe Tonne']);
-            $TerminBraun=strtotime($Abholtage['braune Tonne']);
+            $TerminBlau=strtotime($Abholtage['blaue Tonne'][0]);  
+            $TerminGrau=strtotime($Abholtage['graue Tonne'][0]);
+            $TerminGelb=strtotime($Abholtage['gelbe Tonne'][0]);
+            $TerminBraun=strtotime($Abholtage['braune Tonne'][0]);
             
             SetValue($this->GetIDForIdent("Woche_String"),"");
             
@@ -105,13 +106,13 @@ class BEST_Bottrop_Muelltage extends IPSModule{
             $Wochestr="<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'>";
             $Wochestr.= "<table width='100%' cellspacing='2' cellpadding='2'>";
             if ($TerminBraun <= $week)
-	            $Wochestr.= "<td width='25%' style='color:#A95A57'><i class='fa fa-trash fa-2x'></i>".$this->Wochentag($TerminBraun)."</td>";
+	            $Wochestr.= "<td width='25%' style='color:#A95A57'><i class='fa fa-trash fa-2x'></i> ".$this->Wochentag($TerminBraun)."</td>";
             if ($TerminBlau <= $week)
-	            $Wochestr.= "<td width='25%' style='color:#1B6DB7'><i class='fa fa-trash fa-2x'></i>".$this->Wochentag($TerminBlau)."</td>";
+	            $Wochestr.= "<td width='25%' style='color:#1B6DB7'><i class='fa fa-trash fa-2x'></i> ".$this->Wochentag($TerminBlau)."</td>";
             if ($TerminGelb <= $week)
-                 $Wochestr.= "<td width='25%' style='color:#F9E21B'><i class='fa fa-trash fa-2x'></i>".$this->Wochentag($TerminGelb)."</td>";
+                 $Wochestr.= "<td width='25%' style='color:#F9E21B'><i class='fa fa-trash fa-2x'></i> ".$this->Wochentag($TerminGelb)."</td>";
             if ($TerminGrau <= $week)
-	            $Wochestr.= "<td width='25%' style='color:#9E9E9E'><i class='fa fa-trash fa-2x'></i>".$this->Wochentag($TerminGrau)."</td>";
+	            $Wochestr.= "<td width='25%' style='color:#9E9E9E'><i class='fa fa-trash fa-2x'></i> ".$this->Wochentag($TerminGrau)."</td>";
             $Wochestr.= "</table>";
 
             
@@ -138,6 +139,12 @@ class BEST_Bottrop_Muelltage extends IPSModule{
 		                WFC_PushNotification($WebFrontIns, 'Mülltonnen', 'Morgen wird die '.array_search($TonneHeute, $Abholtage).' abgeholt!', '', 0);
 		            }
 	            }
+   }
+
+   public public function Termine($Tonne,$Datensatz)
+   {
+        $Termindaten = $this->GetBuffer("Termine");
+        return $Termindaten[$Tonne][$Datensatz];
    }
     
    private function SetTimerWeekByName($parentID, $name, $hour,$minutes)
@@ -186,5 +193,9 @@ class BEST_Bottrop_Muelltage extends IPSModule{
         return $Wochentage[$Wochentag]." / ".date("d.m.Y",$Tag) ; 
     }
 
+}
+
+for ($i=0; $i < ; $i++) { 
+    # code...
 }
 ?>
