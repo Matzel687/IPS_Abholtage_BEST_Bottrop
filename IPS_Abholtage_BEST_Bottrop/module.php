@@ -111,6 +111,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
             $Wochestr.= "</table>";
 
             SetValue($this->GetIDForIdent("Woche_String"),$Wochestr);
+            return IPS_LogMessage("Best Abfall Kalender", "Daten wurden aktualisiert");
     }
     
    public function Push_Nachricht(){
@@ -138,8 +139,20 @@ class BEST_Bottrop_Muelltage extends IPSModule{
    public function Termine(string $Tonne,int $Datensatz)
    {
         $Bufferdata = $this->GetBuffer("Termine");
-        $Termindaten = json_decode($Bufferdata,TRUE);  
-        return strtotime($Termindaten[$Tonne][$Datensatz]);
+        $Termindaten = json_decode($Bufferdata,TRUE);
+        $TonnenTyp == array('graue Tonne','blaue Tonne', 'gelbe Tonne', 'braune Tonne');
+
+        if (empty($Tonne) AND empty($Datensatz) ) {   
+                return $Termindaten; 
+        }
+        elseif (in_array($Tonne, $TonnenTyp)) {
+            return strtotime($Termindaten[$Tonne][$Datensatz]);
+        }
+        else {
+            echo "Tonnentyp ".$Tonne." nicht gefunden !";
+            IPS_LogMessage("Best Abfall Kalender", "FEHLER - Tonnentyp ".$Tonne." nicht gefunden !");
+       		exit;
+        }           
    }
     
    private function SetTimerWeekByName($parentID, $name,$day,$hour,$minutes)
