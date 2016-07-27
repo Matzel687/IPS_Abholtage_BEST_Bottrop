@@ -32,6 +32,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
 				{
                             //Variablen erstellen
                     $this->RegisterVariableString("Woche_String","Wochenübersicht","HTMLBox",5);
+
 		                    //Timer zeit setzen
                     if ($this->ReadPropertyString("UpdateInterval") != "")
                     {
@@ -43,8 +44,10 @@ class BEST_Bottrop_Muelltage extends IPSModule{
                         $Updatetime = explode(":",$this->ReadPropertyString("UpdatePushNachricht"));
                         $this->SetTimerEveryday($this->InstanceID,"Push_Nachricht",$Updatetime[0],$Updatetime[1]);
                     }
-                    if ($this->ReadPropertyBoolean("PushMsgAktiv") == false)
-                        IPS_SetEventActive(@IPS_GetEventIDByName("Push_Nachricht",$this->InstanceID), false);
+
+                            // Push Nachrichten aktivieren / deaktivieren
+                        IPS_SetEventActive(@IPS_GetEventIDByName("Push_Nachricht",$this->InstanceID), $this->ReadPropertyBoolean("PushMsgAktiv"));
+                        IPS_LogMessage("Best Abfall Kalender", "Push Nachricht".($this->ReadPropertyBoolean("PushMsgAktiv")));
                              //Instanz ist aktiv
 			        $this->SetStatus(102);
 				}
@@ -94,6 +97,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
             $TerminGelb=strtotime($Abholtage['gelbe Tonne'][0]);
             $TerminBraun=strtotime($Abholtage['braune Tonne'][0]);
             
+            // HTML Box leeren
             SetValue($this->GetIDForIdent("Woche_String"),"");
             
             /// HTML BOX Inhalt Tabbele erstellen
@@ -110,7 +114,9 @@ class BEST_Bottrop_Muelltage extends IPSModule{
 	            $Wochestr.= "<td width='25%' style='color:#9E9E9E'><i class='fa fa-trash fa-2x'></i> ".$this->Wochentag($TerminGrau)."</td>";
             $Wochestr.= "</table>";
 
+            //HTML Box Inhalt schreiben
             SetValue($this->GetIDForIdent("Woche_String"),$Wochestr);
+            
             return IPS_LogMessage("Best Abfall Kalender", "Daten wurden aktualisiert");
     }
     
@@ -149,8 +155,8 @@ class BEST_Bottrop_Muelltage extends IPSModule{
             return strtotime($Termindaten[$Tonne][$Datensatz]);
         }
         else {
-            echo "Tonnentyp ".$Tonne." nicht gefunden !";
-            IPS_LogMessage("Best Abfall Kalender", "FEHLER - Tonnentyp ".$Tonne." nicht gefunden !");
+            echo "Tonnentyp '".$Tonne."' nicht gefunden !";
+            IPS_LogMessage("Best Abfall Kalender", "FEHLER - Tonnentyp '".$Tonne."' nicht gefunden !");
        		exit;
         }           
    }
