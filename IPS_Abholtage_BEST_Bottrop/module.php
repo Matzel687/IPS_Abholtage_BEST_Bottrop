@@ -16,6 +16,7 @@ class BEST_Bottrop_Muelltage extends IPSModule{
 
 		$this->RegisterPropertyString("Strasse", "Ernst-Wilczok-Platz");
 		$this->RegisterPropertyString("Nummer", "1");
+        $this->RegisterPropertyInteger("Wochentag", 0);
 		$this->RegisterPropertyString("UpdateInterval", "00:00" );
         $this->RegisterPropertyBoolean("PushMsgAktiv", false);
         $this->RegisterPropertyInteger("WebFrontInstanceID", "");
