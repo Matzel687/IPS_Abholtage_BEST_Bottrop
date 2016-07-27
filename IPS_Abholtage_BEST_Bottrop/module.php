@@ -91,10 +91,10 @@ class BEST_Bottrop_Muelltage extends IPSModule{
             $this->SetBuffer("Termine",json_encode($Abholtage));
 
             // Datum aus dem Array Abholtage in Unix Timestamp umwandeln 
-            $TerminBlau=date("W",strtotime($Abholtage['blaue Tonne'][0]));  
-            $TerminGrau=date("W",strtotime($Abholtage['graue Tonne'][0]));
-            $TerminGelb=date("W",strtotime($Abholtage['gelbe Tonne'][0]));
-            $TerminBraun=date("W",strtotime($Abholtage['braune Tonne'][0]));
+            $TerminBlau=strtotime($Abholtage['blaue Tonne'][0]);  
+            $TerminGrau=strtotime($Abholtage['graue Tonne'][0]);
+            $TerminGelb=strtotime($Abholtage['gelbe Tonne'][0]);
+            $TerminBraun=strtotime($Abholtage['braune Tonne'][0]);
             $kw = date("W",time()); //Kalneder Woche 
             // HTML Box leeren
             SetValue($this->GetIDForIdent("Woche_String"),"");
@@ -102,13 +102,13 @@ class BEST_Bottrop_Muelltage extends IPSModule{
             /// HTML BOX Inhalt Tabbele erstellen
             $Wochestr="<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'>";
             $Wochestr.= "<table width='100%' cellspacing='2' cellpadding='2'>";
-            if ($TerminBraun == $kw)
+            if (date("W",$TerminBraun) == $kw)
 	            $Wochestr.= "<td width='25%' style='color:#A95A57'><i class='fa fa-trash fa-2x'></i> ".$this->Wochentag($TerminBraun)."</td>";
-            if ($TerminBlau == $kw)
+            if (date("W",$TerminBlau) == $kw)
 	            $Wochestr.= "<td width='25%' style='color:#1B6DB7'><i class='fa fa-trash fa-2x'></i> ".$this->Wochentag($TerminBlau)."</td>";
-            if ($TerminGelb == $kw)
+            if (date("W",$TerminGelb) == $kw)
                  $Wochestr.= "<td width='25%' style='color:#F9E21B'><i class='fa fa-trash fa-2x'></i> ".$this->Wochentag($TerminGelb)."</td>";
-            if ($TerminGrau == $kw)
+            if (date("W",$TerminGrau) == $kw)
 	            $Wochestr.= "<td width='25%' style='color:#9E9E9E'><i class='fa fa-trash fa-2x'></i> ".$this->Wochentag($TerminGrau)."</td>";
             $Wochestr.= "</table>";
 
