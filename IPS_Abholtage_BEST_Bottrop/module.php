@@ -102,13 +102,13 @@ class BEST_Bottrop_Muelltage extends IPSModule{
             /// HTML BOX Inhalt Tabbele erstellen
             $Wochestr="<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'>";
             $Wochestr.= "<table width='100%' cellspacing='2' cellpadding='2'>";
-            if (date("W",$TerminBraun) == $kw)
+            if (date("W",$TerminBraun) == $kw+1)
 	            $Wochestr.= "<td width='25%' style='color:#A95A57'><i class='fa fa-trash fa-2x'></i> ".$this->Wochentag($TerminBraun)."</td>";
-            if (date("W",$TerminBlau) == $kw)
+            if (date("W",$TerminBlau) == $kw+1)
 	            $Wochestr.= "<td width='25%' style='color:#1B6DB7'><i class='fa fa-trash fa-2x'></i> ".$this->Wochentag($TerminBlau)."</td>";
-            if (date("W",$TerminGelb) == $kw)
+            if (date("W",$TerminGelb) == $kw+1)
                  $Wochestr.= "<td width='25%' style='color:#F9E21B'><i class='fa fa-trash fa-2x'></i> ".$this->Wochentag($TerminGelb)."</td>";
-            if (date("W",$TerminGrau) == $kw)
+            if (date("W",$TerminGrau) == $kw+1)
 	            $Wochestr.= "<td width='25%' style='color:#9E9E9E'><i class='fa fa-trash fa-2x'></i> ".$this->Wochentag($TerminGrau)."</td>";
             $Wochestr.= "</table>";
 
